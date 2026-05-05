@@ -6,13 +6,28 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          "vendor-react":   ["react", "react-dom"],
-          "vendor-router":  ["react-router-dom"],
-          "vendor-redux":   ["@reduxjs/toolkit", "react-redux"],
-          "vendor-motion":  ["framer-motion"],
-          "vendor-swiper":  ["swiper"],
-          "vendor-ui":      ["react-toastify", "react-icons"],
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react") || id.includes("react-dom")) {
+              return "vendor-react";
+            }
+            if (id.includes("react-router-dom")) {
+              return "vendor-router";
+            }
+            if (id.includes("@reduxjs/toolkit") || id.includes("react-redux")) {
+              return "vendor-redux";
+            }
+            if (id.includes("framer-motion")) {
+              return "vendor-motion";
+            }
+            if (id.includes("swiper")) {
+              return "vendor-swiper";
+            }
+            if (id.includes("react-toastify") || id.includes("react-icons")) {
+              return "vendor-ui";
+            }
+            return "vendor"; // fallback
+          }
         },
       },
     },
@@ -22,7 +37,13 @@ export default defineConfig({
     target: "es2020",
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "react-router-dom", "@reduxjs/toolkit", "framer-motion"],
+    include: [
+      "react",
+      "react-dom",
+      "react-router-dom",
+      "@reduxjs/toolkit",
+      "framer-motion",
+    ],
   },
   server: {
     hmr: { overlay: true },
