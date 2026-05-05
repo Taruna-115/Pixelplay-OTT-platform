@@ -33,7 +33,7 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 700,
     sourcemap: false,
-    minify: "esbuild",
+    minify: true,
     target: "es2020",
   },
   optimizeDeps: {
